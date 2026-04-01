@@ -1,0 +1,26 @@
+{
+  "name": "example-hub",
+  "version": "1.0.0",
+  "description": "A hub of frontend, agent kits, and smart contract examples for BNB Chain developers. Build and innovate with ready-to-use resources.",
+  "private": true,
+  "keywords": [
+    "BNBChain",
+    "Example",
+    "BSC",
+    "BlockChain",
+    "Binance"
+  ],
+  "scripts": {
+    "prepare": "husky",
+    "dry-release": "semantic-release -d -e ./packages/.releaserc.js --package=create-bnb-app"
+  },
+  "author": "BNBChain",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@semantic-release/git": "^10.0.1",
+    "husky": "^9.1.7",
+    "semantic-release": "^24.2.3"
+  }
+}
