@@ -1,0 +1,62 @@
+name: Release Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: "The package folder name under packages/ to release (e.g. create-bnb-app)"
+        required: true
+        default: create-bnb-app
+        type: choice
+        options:
+          - create-bnb-app
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Allows pushing changes and creating releases
+      issues: write
+      pull-requests: write
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Cache pnpm store for faster installs
+      - name: Cache pnpm store
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      # Setup pnpm (using pnpm/action-setup@v4)
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          run_install: true
+
+      # Setup Node.js (v20+)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      # Use sparse-checkout if releasing from bnb-chain example-hub (to avoid cloning the entire repo)
+      # Here we assume that if the project input is not a URL, it is a bnb-chain example name.
+      - name: Install dependencies and build package
+        working-directory: packages/${{ github.event.inputs.project }}
+        run: |
+          pnpm install
+          pnpm run build || echo "No build script found"
+
+      # Publish to NPM and create GitHub release using semantic-release.
+      # Note: To limit release notes to commits with the create-bnb theme, configure semantic-release (e.g. releaseRules)
+      - name: Run semantic-release
+        run: npx semantic-release -e ./packages/.releaserc.js --package=${{ github.event.inputs.project }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
