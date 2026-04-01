@@ -1,0 +1,31 @@
+{
+  "name": "create-bnb-app",
+  "version": "0.0.3",
+  "description": "A CLI tool to create BNB Chain examples",
+  "main": "dist/index.js",
+  "bin": {
+    "create-bnb-app": "./dist/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "axios": "^1.8.3",
+    "chalk": "4",
+    "commander": "^13.1.0",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  },
+  "author": "BNBChain",
+  "license": "GPL-3.0"
+}
