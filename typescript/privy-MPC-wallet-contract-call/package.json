@@ -11,9 +11,9 @@
   "dependencies": {
     "@privy-io/chains": "^0.0.2",
     "@privy-io/react-auth": "^2.18.0",
-    "axios": "^1.13.5",
+    "axios": "^1.14.0",
     "ethers": "^6.15.0",
-    "next": "15.5.14",
+    "next": "16.2.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
